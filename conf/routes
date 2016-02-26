@@ -1,0 +1,46 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# 登录
+GET      /		                 	 controllers.Login.login()
+GET		 /login						 controllers.Login.login()
+POST     /login	            		 controllers.Login.loginDo()
+GET      /loginDo                  	 controllers.Login.loginDo()
+GET      /logout					 controllers.Login.logout()
+
+# 用户管理
+GET      /kzAuthUser			 	 	 controllers.AuthUserApplication.kzAuthUser()
+POST     /kzAuthUser			 	 	 controllers.AuthUserApplication.kzAuthUser()
+GET	 	 /kzAuthUserAdd					controllers.AuthUserApplication.kzAuthUserAdd()
+POST	 /kzAuthUserAddDo				controllers.AuthUserApplication.kzAuthUserAddDo()
+GET      /kzAuthUserDetail/:id		 	controllers.AuthUserApplication.kzAuthUserDetail(id: String)
+POST	 /kzAuthUserUpdate				controllers.AuthUserApplication.kzAuthUserUpdate()
+GET	 	 /kzPasswdEdit/:id						controllers.AuthUserApplication.kzPasswdEdit(id:String)
+POST	 /kzPasswdEditDo							controllers.AuthUserApplication.kzPasswdEditDo()
+GET	 	 /kzUserPasswdEdit/:id						controllers.AuthUserApplication.kzUserPasswdEdit(id:String)
+POST	 /kzUserPasswdEditDo						controllers.AuthUserApplication.kzUserPasswdEditDo()
+
+GET	 /userDisable/:id							controllers.AuthUserApplication.userDisable(id:String)
+GET	 /userEnable/:id							controllers.AuthUserApplication.userEnable(id:String)
+
+POST	 /findExistUsername						controllers.AuthUserApplication.findExistUsername()
+
+# 广告统一管理
+GET      /kzAdvert			 	 	 controllers.AdvertApplication.kzAdvert()
+POST     /kzAdvert			 	 	 controllers.AdvertApplication.kzAdvert()
+GET      /kzAdvertAdd					 controllers.AdvertApplication.kzAdvertAdd()
+POST     /kzAdvertAddDo				 controllers.AdvertApplication.kzAdvertAddDo()
+GET      /kzAdvertDel/:uuid			 controllers.AdvertApplication.kzAdvertDel(uuid: String)
+GET      /kzAdvertDetail/:uuid		 controllers.AdvertApplication.kzAdvertDetail(uuid: String)
+POST	 /kzAdvertUpdate				 controllers.AdvertApplication.kzAdvertUpdate()
+
+GET		/kzAdvertMoveUp/:uuid			controllers.AdvertApplication.kzAdvertMoveUp(uuid: String)
+GET		/kzAdvertMoveDown/:uuid			controllers.AdvertApplication.kzAdvertMoveDown(uuid: String)
+
+#GET     /advert/:uuid               controllers.WebApplication.advert(uuid: String) 
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               	controllers.Assets.at(path="/public", file)

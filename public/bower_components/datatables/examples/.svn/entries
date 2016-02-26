@@ -1,0 +1,86 @@
+10
+
+dir
+96
+svn://alr@183.232.104.45:63690/svnrepos/users/testfc/FucaiServer/client_web/public/bower_components/datatables/examples
+svn://alr@183.232.104.45:63690/svnrepos
+
+
+
+2015-02-04T10:08:30.904758Z
+80
+alr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+02fb2845-675e-417c-8d49-f5ce98bf0da4
+
+ajax
+dir
+
+basic_init
+dir
+
+advanced_init
+dir
+
+api
+dir
+
+examples_support
+dir
+
+index.html
+file
+
+
+
+
+2015-01-22T07:05:24.000000Z
+1091934e10bfc30e53011fe5414a9d30
+2015-02-04T10:08:30.904758Z
+80
+alr
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+8636
+
+server_side
+dir
+
+data_sources
+dir
+
+plug-ins
+dir
+

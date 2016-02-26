@@ -1,0 +1,204 @@
+@(result: String)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@common.title()</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @common.description()
+
+	<!-- 自定义css -->
+    @common.bootstrapselfcss()
+	<!-- 共用css -->
+    @common.bootstrapcss()
+    <!-- jQuery -->
+    @common.jquery()
+    <!-- html5 -->
+	@common.html5()
+	
+    <!-- The fav icon -->
+    @common.shortcuticon()
+
+</head>
+
+<body>
+    <!-- topbar starts -->
+    @common.topbar()
+    <!-- topbar ends --> 
+<div class="ch-container">
+    <div class="row">
+        
+        <!-- left menu starts -->
+        @common.left()
+        <!-- left menu ends -->
+
+        <!-- noscript starts -->
+        @common.noscript()
+        <!-- noscript ends -->
+
+        <div id="content" class="col-lg-10 col-sm-10">
+            <!-- content starts -->
+                <div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">@common.breadcrumb()</a>
+            </li>
+            <li>
+                <a href="#">添加用户</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+    <div class="box col-md-12">
+    <div class="box-inner">
+    <div class="box-header well" data-original-title="">
+        <h2><i class="glyphicon glyphicon-user"></i> 添加用户</h2>
+    </div>
+    <div class="box-content">
+			<label style="color:red;">@result</label>
+			<form id="s1" action="/kzAuthUserAddDo" method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>账号</label>
+                        <input type="text" class="form-control" id="authusername" name="authusername" value="" placeholder="输入账号" onchange="findExistUsername(this.value)">
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" class="form-control" id="password" name="password" value="" placeholder="输入密码">
+                    </div>
+                    <div class="form-group">
+                        <label>确认密码</label>
+                        <input type="password" class="form-control" id="repassword" name="repassword" value="" placeholder="确认密码">
+                    </div>
+                    <div class="form-group">
+                        <label>用户名</label>
+                        <input type="text" class="form-control" id="name" name="name" value="" placeholder="输入用户名">
+                    </div>
+                    <div class="form-group">
+                        <label>电话</label>
+                        <input type="text" class="form-control" id="mobile" name="mobile" value="" placeholder="输入电话">
+                    </div>
+
+					@if(session.get("isadmin")=="1"){
+                    <div class="form-group">
+                        <label>账户类型</label>
+                        <br>
+                        <input type="radio" value="0" name="ismanager" checked="checked"> 商家用户
+                        <input type="radio" value="1" name="ismanager"> 管理员
+                    </div>
+                    }
+                    
+                    <button id="fs1" type="button" class="btn btn-default form-control" onclick="check()">提交</button>
+   		 </form>
+					
+    </div>
+    </div>
+    </div>
+    <!--/span-->
+
+    </div><!--/row-->
+
+    <!-- content ends -->
+    </div><!--/#content.col-md-0-->
+</div><!--/fluid-row-->
+
+    <hr>
+	
+    <div class="modal fade" id="myModal" name="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+    </div>
+
+	<!-- footer starts -->
+    @common.footer()
+    <!-- footer ends -->
+
+</div><!--/.fluid-container-->
+
+@common.bootstrapjs()
+<script type="text/javascript">
+
+var usernameIsExist="0";
+
+function check(){
+
+	if($('#authusername').val()==""){
+		
+		alert("请输入用户账号！");
+		return;
+	}
+
+	if($('#password').val()==""){
+		
+		alert("请输入用户密码！");
+		return;
+	}
+
+	if($('#repassword').val()==""){
+		
+		alert("请确认密码！");
+		return;
+	}
+
+	if($('#password').val()!=$('#repassword').val()){
+		
+		alert("两次密码不一致！");
+		return;
+	}
+
+	if(usernameIsExist=="1"){
+		alert("用户账号已经存在！");
+		return;
+	}
+
+	/*if($("input[name='ismanager']:checked").val()==""){
+		
+		alert("请选择账户类型！");
+		return;
+	}*/
+
+	$('#s1').submit();
+}
+
+$(document).ready(function(){
+	
+	if($("#authusername").val()!=""){
+		findExistUsername($("#authusername").val());
+	}
+
+});
+
+function findExistUsername(username){
+	
+	if(username==""){
+		return;
+	}
+
+	$.post("/findExistUsername",
+	{
+		username:username
+	},
+	function(data,status){
+		
+		if(status=="success"){
+			
+			var json=JSON.parse(data);
+			var code=json.code;
+			var message=json.msg;
+
+			if(code=="0"){
+				usernameIsExist="0";
+			}else{
+				usernameIsExist="1";
+				alert(message);
+				return;
+			}
+		}
+		else{
+			alert("请稍后再试！");
+		}
+	});
+}
+</script>
+</body>
+</html>

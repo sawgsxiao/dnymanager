@@ -1,0 +1,83 @@
+@(error: String, status: Int)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@common.title()</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @common.description()
+
+	<!-- 自定义css -->
+    @common.bootstrapselfcss()
+	<!-- 共用css -->
+    @common.bootstrapcss()
+    <!-- jQuery -->
+    @common.jquery()
+    <!-- html5 -->
+	@common.html5()
+	
+    <!-- The fav icon -->
+    @common.shortcuticon()
+
+</head>
+
+<body>
+    
+<div class="ch-container">
+    <div class="row">
+        
+    <div class="row">
+        <div class="col-md-12 center login-header">
+            <h2>欢迎使用SEATEL手机厅管理后台</h2>
+        </div>
+        <!--/span-->
+    </div><!--/row-->
+
+    <div class="row">
+        <div class="well col-md-5 center login-box">
+        	@if(status == 0){
+            <div class="alert alert-info">
+                @error
+            </div>
+            }else{
+            <div class="alert alert-danger">
+                @error
+            </div>
+            }
+            @helper.form(routes.Login.loginDo) {
+            
+                <fieldset>
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user red"></i></span>
+                        <input type="text" class="form-control" name="username" placeholder="账号">
+                    </div>
+                    <div class="clearfix"></div><br>
+
+                    <div class="input-group input-group-lg">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock red"></i></span>
+                        <input type="password" class="form-control" name="password" placeholder="密码">
+                    </div>
+                    <div class="clearfix"></div>
+
+                    <!--<div class="input-prepend">
+                        <label class="remember" for="remember"><input type="checkbox" id="remember"> 记录</label>
+                    </div>
+                    <div class="clearfix"></div>-->
+
+                    <p class="center col-md-5">
+                        <button type="submit" class="btn btn-primary">登录</button>
+                    </p>
+                </fieldset>
+            }
+        </div>
+        <!--/span-->
+    </div><!--/row-->
+</div><!--/fluid-row-->
+
+</div><!--/.fluid-container-->
+
+@common.bootstrapjs()
+
+</body>
+</html>

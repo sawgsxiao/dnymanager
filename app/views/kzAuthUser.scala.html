@@ -1,0 +1,296 @@
+@(list: List[AuthUser],count: Int,pageNow: Int,pageCount: Int,pageSize: Int,path: String)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@common.title()</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @common.description()
+
+	<!-- 自定义css -->
+    @common.bootstrapselfcss()
+	<!-- 共用css -->
+    @common.bootstrapcss()
+    <!-- jQuery -->
+    @common.jquery()
+    <!-- html5 -->
+	@common.html5()
+	
+    <!-- The fav icon -->
+    @common.shortcuticon()
+
+</head>
+
+<body>
+    <!-- topbar starts -->
+    @common.topbar()
+    <!-- topbar ends -->
+    
+<div class="ch-container">
+    <div class="row">
+        
+        <!-- left menu starts -->
+        @common.left()
+        <!-- left menu ends -->
+
+        <!-- noscript starts -->
+        @common.noscript()
+        <!-- noscript ends -->
+
+        <div id="content" class="col-lg-10 col-sm-10">
+            <!-- content starts -->
+        	<div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">@common.breadcrumb()</a>
+            </li>
+            <li>
+                <a href="#">用户列表</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+    <div class="box col-md-12">
+    <div class="box-inner">
+    <div class="box-header well" data-original-title="">
+        <h2><i class="glyphicon glyphicon-user"></i> 
+        	 	用户列表
+        </h2>
+    </div>
+    <div class="box-content">
+    
+    <form class="form-horizontal" action="#" method="post">
+			<div class="row">
+				<div class="col-md-10">
+					<div class="dataTables_filter">
+					</div>
+				</div>
+			</div>
+	</form>
+	
+	<label> </label>
+	
+    <table class="table table-striped table-bordered bootstrap-datatable responsive">
+    <thead>
+    <tr>
+        <th>账号</th>
+        <th>用户名</th>
+        <th>手机号码</th>
+        <th>类型</th>
+        <th>状态</th>
+        <th width="280">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    @list.map { obj =>
+    <tr>
+    	<td>@obj.getUsername()</td>
+        <td>@obj.getName()</td>
+        <td>@obj.getMobile()</td>
+        <td>
+        @if(obj.getIsmanager()==0) {
+        	前端用户
+        }else{
+        	管理员
+        }
+        </td>
+        <td class="center">
+        				@if(obj.getStatus()== 0) {
+    						<span class="label-success label label-default">正常</span>
+    					}else{
+            				<span class="label-failed label label-default">禁用</span>
+           				}
+        </td>
+        <td class="center">
+            <a class="btn btn-primary" href="/kzAuthUserDetail/@obj.getUserid()">
+                <i class="glyphicon glyphicon-zoom-in icon-white"></i>
+                编辑
+            </a>
+           <!-- 
+ <a class="btn btn-danger" onclick="setDeleteId('@obj.getUserid()')">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+                删除
+            </a>
+ -->		
+ 			@if(obj.getStatus()== 0){
+            <a class="btn btn-danger" href="/userDisable/@obj.getUserid()">
+                <i class="glyphicon glyphicon-trash icon-white"></i>
+            	禁用
+            </a>
+            }else{
+            <a class="btn btn-success" href="/userEnable/@obj.getUserid()">
+                <i class="glyphicon glyphicon-refresh icon-white"></i>
+                恢复
+            </a>
+            }
+            
+            <a class="btn btn-warning" href="/kzUserPasswdEdit/@obj.getUserid()">
+                <i class="glyphicon glyphicon-pencil icon-white"></i>
+                修改密码
+            </a>
+        </td>
+    </tr>
+    
+    }
+    </tbody>
+    </table>
+    
+    <form id="f2" action="/kzUser" method="post">
+		<input type="hidden" id="page2" name="pagenow" value="">
+    
+    @common.page(count,pageNow,pageCount,pageSize)
+    
+    </form> 
+				
+    </div>
+    </div>
+    </div>
+    <!--/span-->
+
+    </div><!--/row-->
+
+    <!-- content ends -->
+    </div><!--/#content.col-md-0-->
+</div><!--/fluid-row-->
+
+    <hr>
+    
+    <input type="hidden" name="deleteId" id="deleteId" value="">
+    <div class="modal" id="deleteModal" name="deleteModal">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal" href="javascript:closeDeleteModal();">×</a>
+                    <h3>温馨提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p>确定要删除该数据吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:closeDeleteModal();" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="javascript:turnPage();" class="btn btn-primary" data-dismiss="modal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+     <input type="hidden" name="disableId" id="disableId" value="">
+    <div class="modal" id="disableModal" name="disableModal">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal" href="javascript:closeDisableModal();">×</a>
+                    <h3>温馨提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p>确定要禁用该用户吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:closeDisableModal();" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="javascript:disable();" class="btn btn-primary" data-dismiss="modal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <input type="hidden" name="enableId" id="enableId" value="">
+    <div class="modal" id="enableModal" name="enableModal">
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a type="button" class="close" data-dismiss="modal" href="javascript:closeEnableModal();">×</a>
+                    <h3>温馨提示</h3>
+                </div>
+                <div class="modal-body">
+                    <p>确定要恢复该用户吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="javascript:closeEnableModal();" class="btn btn-default" data-dismiss="modal">取消</a>
+                    <a href="javascript:enable();" class="btn btn-primary" data-dismiss="modal">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+    </div>
+
+	<!-- footer starts -->
+    @common.footer()
+    <!-- footer ends -->
+
+</div><!--/.fluid-container-->
+
+@common.bootstrapjs()
+
+
+<script type="text/javascript">
+	
+	function setPage(page){
+		$('#myModal').show();
+		$('#page2').val(page);
+		$('#f2').submit()
+	}
+	
+	function setDeleteId(id){
+		$("#deleteId").val(id);
+		$('#deleteModal').show();
+	}
+	
+	function closeDeleteModal(){
+		$("#deleteId").val("");
+		$('#deleteModal').hide();
+	}
+	
+	function turnPage(){
+	
+		window.location.href="/kzAdvertDel/"+$('#deleteId').val();
+	}
+	
+	function setDeleteId(id){
+		$("#deleteId").val(id);
+		$('#deleteModal').show();
+	}
+	
+	//
+	function setDisableId(id){
+		$("#disableId").val(id);
+		$('#disableModal').show();
+	}
+	
+	function closeDisableModal(){
+		$("#disableId").val("");
+		$('#disableModal').hide();
+	}
+	
+	function disable(){
+	
+		window.location.href="/userDisable/"+$('#disableId').val();
+	}
+	
+	//
+	function setEnableId(id){
+		$("#enableId").val(id);
+		$('#enableModal').show();
+	}
+	
+	function closeEnableModal(){
+		$("#enableId").val("");
+		$('#enableModal').hide();
+	}
+	
+	function enable(){
+	
+		window.location.href="/userEnable/"+$('#enableId').val();
+	}
+</script>
+    
+</body>
+</html>

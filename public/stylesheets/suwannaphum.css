@@ -1,0 +1,15 @@
+/* fallback */
+@font-face {
+  font-family: 'Suwannaphum';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Suwannaphum'), url(http://fonts.gstatic.com/s/suwannaphum/v9/1jIPOyXied3T79GCnSlCN1tXRa8TVwTICgirnJhmVJw.woff2) format('woff2');
+}
+/* khmer */
+@font-face {
+  font-family: 'Suwannaphum';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Suwannaphum'), url(http://fonts.gstatic.com/s/suwannaphum/v9/uAaVNZcr8xz6YTjJpK0ZzzXm5srZsLDS8o1sUzf6_yA.woff2) format('woff2');
+  unicode-range: U+1780-17FF, U+200B-200C, U+25CC;
+}

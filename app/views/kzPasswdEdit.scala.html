@@ -1,0 +1,125 @@
+@(id: String, result: String)
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>@common.title()</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    @common.description()
+
+	<!-- 自定义css -->
+    @common.bootstrapselfcss()
+	<!-- 共用css -->
+    @common.bootstrapcss()
+    <!-- jQuery -->
+    @common.jquery()
+    <!-- html5 -->
+	@common.html5()
+	
+    <!-- The fav icon -->
+    @common.shortcuticon()
+
+</head>
+
+<body>
+    <!-- topbar starts -->
+    @common.topbar()
+    <!-- topbar ends -->
+<div class="ch-container">
+    <div class="row">
+        
+        <!-- left menu starts -->
+        @common.left()
+        <!-- left menu ends -->
+
+        <!-- noscript starts -->
+        @common.noscript()
+        <!-- noscript ends -->
+
+        <div id="content" class="col-lg-10 col-sm-10">
+            <!-- content starts -->
+                <div>
+        <ul class="breadcrumb">
+            <li>
+                <a href="#">@common.breadcrumb()</a>
+            </li>
+            <li>
+                <a href="#">修改密码</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="row">
+    <div class="box col-md-12">
+    <div class="box-inner">
+    <div class="box-header well" data-original-title="">
+        <h2><i class="glyphicon glyphicon-user"></i> 修改密码</h2>
+    </div>
+    <div class="box-content">
+			<label style="color:red;">@result</label>
+			<form id="s1" action="/kzPasswdEditDo" method="post" enctype="multipart/form-data">
+			<input type="hidden" class="form-control" id="userid" name="userid" value="@id" >
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input type="password" class="form-control" id="password" name="password" value="" placeholder="输入密码">
+                    </div>
+                    <div class="form-group">
+                        <label>确认密码</label>
+                        <input type="password" class="form-control" id="repassword" name="repassword" value="" placeholder="确认密码">
+                    </div>
+                    <button type="button" class="btn btn-default form-control" onclick="check()">提交</button>
+   		 </form>
+					
+    </div>
+    </div>
+    </div>
+    <!--/span-->
+
+    </div><!--/row-->
+
+    <!-- content ends -->
+    </div><!--/#content.col-md-0-->
+</div><!--/fluid-row-->
+
+    <hr>
+	
+    <div class="modal fade" id="myModal" name="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+    </div>
+
+	<!-- footer starts -->
+    @common.footer()
+    <!-- footer ends -->
+
+</div><!--/.fluid-container-->
+
+@common.bootstrapjs()
+<script type="text/javascript">
+	
+function check(){
+		
+	if($('#password').val()==""){
+		
+		alert("请输入用户密码！");
+		return;
+	}
+
+	if($('#repassword').val()==""){
+		
+		alert("请确认密码！");
+		return;
+	}
+
+	if($('#password').val()!=$('#repassword').val()){
+		
+		alert("两次密码不一致！");
+		return;
+	}
+		
+		$('#s1').submit();
+	}
+</script>
+
+</body>
+</html>
